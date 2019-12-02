@@ -1,0 +1,557 @@
+//use java with eclipse to make health care program
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class Main extends JFrame {
+	private JButton b1,b2,b3,b4,b5,b6,b7;
+	
+	public Main() {
+		setSize(400, 500);
+		setTitle("헬스케어 프로그램"); //health care program
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(null);
+		
+		JLabel l1 = new JLabel("헬스케어 프로그램에 오신 것을 환영합니다."); // welcome to our health care program.
+		l1.setLocation(20,20);
+		l1.setSize(300,15);
+				add(l1);
+		
+		JLabel l2 = new JLabel();		
+		ImageIcon icon = new ImageIcon("health.png");
+		l2.setIcon(icon);
+		l2.setLocation(140,120);
+		l2.setSize(225,225);
+		add(l2);
+		
+		class listener1 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				WorkOut work = new WorkOut();
+			}
+		}
+		class listener7 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				file t = new file();
+			}
+		}
+		class listener6 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				Coffee c = new Coffee();
+			}
+		}
+		class listener3 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				Sleep s = new Sleep();
+			}
+		}
+		class listener5 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				Water w = new Water();
+			}
+		}
+		class listener4 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				 BMI_Test bmi=new BMI_Test();
+				  bmi.show();
+				  bmi.setSize(400,300);
+			}
+		}
+		class listener2 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				 EventQueue.invokeLater(new Runnable() {
+			         public void run() {
+			            try {
+			               CalTest frame = new CalTest();
+			               frame.setVisible(true);
+			            } catch (Exception e) {
+			               e.printStackTrace();
+			            }
+			         }
+			      });
+			}
+		}
+		
+		JButton b1 = new JButton("운동"); b1.addActionListener(new listener1()); //workout
+		JButton b2 = new JButton("음식"); b2.addActionListener(new listener2()); //food
+		JButton b3 = new JButton("수면"); b3.addActionListener(new listener3()); //sleep
+		JButton b4 = new JButton("체중관리"); b4.addActionListener(new listener4()); //diet
+		JButton b5 = new JButton("물"); b5.addActionListener(new listener5()); //water
+		JButton b6 = new JButton("카페인"); b6.addActionListener(new listener6()); //caffeine
+		JButton b7 = new JButton("건강상식");b7.addActionListener(new listener7()); //health care tips
+		
+		b1.setLocation(30,80);
+		b1.setSize(90, 40);
+		b2.setLocation(30,120);
+		b2.setSize(90, 40);
+		b3.setLocation(30,160);
+		b3.setSize(90, 40);
+		b4.setLocation(30,200);
+		b4.setSize(90, 40);
+		b5.setLocation(30,240);
+		b5.setSize(90, 40);
+		b6.setLocation(30,280);
+		b6.setSize(90, 40);
+		b7.setLocation(30,320);
+		b7.setSize(90, 40);
+		
+		add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);
+
+		setVisible(true);
+	
+	}
+
+	private void add(ImageIcon icon) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void main(String[] args) {
+		Main m = new Main(); 
+	}
+} //main end.
+
+//class diet to check bmi test
+class BMI_Test extends Frame implements ActionListener
+{
+ double height,weight;
+ TextField in_height,in_weight,reBMI,reWe;
+ TextArea ta;
+ Button enter,reset;
+ String BMI_Result;
+
+ public BMI_Test(){
+  super("비만 지수 측정과 당신의 표준체중");
+  setLayout(new GridLayout(2,1,5,5)); 
+  
+  Panel p1=new Panel();
+  p1.setBackground(Color.yellow);
+  p1.setLayout(new BorderLayout()); 
+  p1.add(new Label("키(cm)와 몸무게(kg)  입력하시고 아래의 '체크'버튼을 누르세요."),"North");
+
+  Panel p11=new Panel();
+  p11.add(new Label("키(cm): "));
+  in_height=new TextField(5);
+  p11.add(in_height);
+  Label l=new Label("몸무게(kg): ");
+  p11.add(l);
+  in_weight=new TextField(5);
+  p11.add(in_weight);
+  p1.add(p11,"Center");
+
+  Panel p12=new Panel();  
+  enter =new Button("체크");
+  reset =new Button("다시입력");
+  enter.addActionListener(this);
+  reset.addActionListener(this);
+  p12.add(enter);
+  p12.add(reset);
+  p1.add(p12,"South");
+
+  add(p1);
+  
+  Panel p2=new Panel();
+  p2.setLayout(new BorderLayout());
+  p2.add(new Label("----------- 결 과 보 기 ------------"),"North");
+  Panel p21=new Panel();
+  p21.add(new Label("비만지수(BMI):"));
+  reBMI=new TextField(5);
+  p21.add(reBMI);
+  p21.add(new Label("표준체중(kg):"));
+  reWe=new TextField(5);
+  p21.add(reWe);
+  p21.add(new Label("BMI로 본 당신의 상태는?"));
+  ta=new TextArea(1,20);
+  p21.add(ta);
+
+  p2.add(p21,"Center");
+  
+  add(p2);
+  in_height.requestFocus();
+
+  addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent we) {
+        System.exit(0);
+      }
+    });
+ }
+
+ public void actionPerformed(ActionEvent ae) {
+  String s=ae.getActionCommand();
+  if(s.equals("체크")){
+  height=Double.valueOf(in_height.getText()).doubleValue();
+  double N_weight = (height - 100)* 0.9;
+   height=height/100;
+   System.out.println(height);
+   weight=Double.valueOf(in_weight.getText()).doubleValue();
+   
+   
+   double BMI = Math.round(weight/(height * height));
+   String re=BMI_Check(BMI);
+   reBMI.setText(""+BMI);
+   reWe.setText(""+N_weight);
+   ta.setText(re);
+  }else{
+   in_height.setText("");
+   in_weight.setText("");
+  }
+ }
+
+ public String BMI_Check(double BMI){
+
+  if(BMI<20)
+   BMI_Result="저체중입니다.";
+  else if(20<=BMI && BMI<25)
+   BMI_Result="정상입니다.";
+  else if(25<=BMI&& BMI<30)
+   BMI_Result="과체중입니다.";
+  else if(BMI<=30)
+   BMI_Result="비만입니다.";
+  return BMI_Result;
+ }
+
+}
+
+//class food to calculate calories
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+class CalTest extends JFrame {
+
+   private JPanel contentPane;
+   private JTextField tf1;
+   private JTextField tf2;
+   private JTextField tf3;
+   private JLabel lbl1;
+   private JTextField tf4;
+
+ 
+
+   public CalTest() {
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setBounds(100, 100, 450, 300);
+      contentPane = new JPanel();
+      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+      setContentPane(contentPane);
+      contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+      
+      JLabel lblNewLabel = new JLabel("칼로리 섭취량 계산");
+      contentPane.add(lblNewLabel);
+      
+      JPanel panel = new JPanel();
+      contentPane.add(panel);
+      
+      JLabel lblNewLabel_1 = new JLabel("아침 섭취 칼로리");
+      panel.add(lblNewLabel_1);
+      
+      tf1 = new JTextField();
+      panel.add(tf1);
+      tf1.setColumns(10);
+      
+      JPanel panel_1 = new JPanel();
+      contentPane.add(panel_1);
+      
+      JLabel lblNewLabel_2 = new JLabel("점심 섭취 칼로리");
+      panel_1.add(lblNewLabel_2);
+      
+      tf2 = new JTextField();
+      panel_1.add(tf2);
+      tf2.setColumns(10);
+      
+      JPanel panel_2 = new JPanel();
+      contentPane.add(panel_2);
+      
+      JLabel lblNewLabel_3 = new JLabel("저녁 섭취 칼로리");
+      panel_2.add(lblNewLabel_3);
+      
+      tf3 = new JTextField();
+      panel_2.add(tf3);
+      tf3.setColumns(10);
+
+      JPanel panel_3 = new JPanel();
+      contentPane.add(panel_3);
+
+      JLabel lblNewLabel_4 = new JLabel("간식 섭취 칼로리");
+      panel_3.add(lblNewLabel_4);
+      
+      tf4 = new JTextField();
+      panel_3.add(tf4);
+      tf4.setColumns(10);
+
+      JButton btnCalc = new JButton("칼로리 계산");
+      btnCalc.addActionListener(new ActionListener() {
+         
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            int cal1 = Integer.parseInt(tf1.getText());
+            int cal2 = Integer.parseInt(tf2.getText());
+            int cal3 = Integer.parseInt(tf3.getText());
+            int cal4 = Integer.parseInt(tf4.getText());
+            
+            int diff = (cal1 + cal2 + cal3 + cal4) - 2900;
+            
+            if(diff > 0) lbl1.setText("적정 칼로리 보다 "+diff+"kcal 더 섭취하였습니다.");
+            else if(diff < 0) lbl1.setText("적정 칼로리 보다 "+diff+"kcal 덜 섭취하였습니다.");
+            else lbl1.setText("적정 칼로리를 섭취하였습니다.");
+         }
+      });
+      contentPane.add(btnCalc);
+      
+      
+      
+      lbl1 = new JLabel("결과:");
+      contentPane.add(lbl1);
+   }
+
+}
+
+/class caffeine 
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+ 
+class Coffee extends JFrame{
+ private JPanel panel;
+ private JButton button;
+ private JLabel label;
+ int counter=0;
+ 
+ class MyListener implements ActionListener{
+  public void actionPerformed(ActionEvent e){
+   counter++;
+   label.setText("오늘 마신 커피:"+counter+"잔"+"  "+"오늘 마신 카페인"+counter*80+"mg");
+  }
+ }
+ class MyListener2 implements ActionListener{
+  public void actionPerformed(ActionEvent e) {
+   counter--;
+   label.setText("오늘 마신 커피:"+counter+"잔"+"  "+"오늘 마신 카페인"+counter*80+"mg");
+  }
+ }
+ public Coffee(){
+  setSize(750,450);
+  setTitle("카페인");
+  setLayout(new FlowLayout());
+  panel=new JPanel();
+  //button=new JButton("증가");
+  label=new JLabel("오늘 마신 커피:"+counter+"잔"+"  "+"오늘 마신 카페인"+counter*80+"mg");
+  JButton button1= new JButton("증가");
+  JButton button2= new JButton("감소");
+  
+  button1.addActionListener(new MyListener());
+  button2.addActionListener(new MyListener2());
+  ImageIcon icon=new ImageIcon("coffee.png");
+  label.setIcon(icon);
+ 
+  add(button1); add(button2);
+  add(label);
+  add(panel);
+  setVisible(true);
+ }
+ public static void main(String[]args){
+  Coffee t=new Coffee();
+ }
+}
+
+
+//class health care tips using file input,output
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.awt.*;
+
+class file extends JFrame{
+ private JButton button;
+
+ class MyListener implements ActionListener{
+  public void actionPerformed(ActionEvent e){
+	  FileReader fi = null;
+		FileWriter fo = null;
+		try {
+		fi = new FileReader("age.txt");
+		fo = new FileWriter("output.txt");
+
+		int c;
+		while((c=fi.read())!=-1) {
+			System.out.print((char)c);
+			fo.write(c);
+		}
+	}catch(FileNotFoundException e1) {
+		System.out.println("파일이 없어요");
+	}catch(IOException e1) {
+		System.out.println("파일읽기 실패");
+	}finally {
+		try {
+			fo.close();
+		} catch (IOException e1) { 
+			e1.printStackTrace();
+		}
+	}
+  }
+ }
+   
+ public file() {
+  setSize(400,150);
+  setTitle("건강상식");
+  setLayout(new FlowLayout());
+  button=new JButton("나이보다젊어보이는법");
+  button.addActionListener(new MyListener());
+  add(button);
+  setVisible(true);
+  
+ }
+ }
+ 
+ //class sleep
+ import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+
+class Sleep extends JFrame {
+     private JButton button;
+     private JTextField text, result;
+     private JLabel label1;
+
+public Sleep() {
+     setSize(300, 150);
+     setTitle("수면 시간 관리");
+     ButtonListener listener = new ButtonListener();
+
+     JPanel panel = new JPanel();
+     panel.add(new JLabel("수면시간 입력 : "));
+     text = new JTextField(15);
+     text. addActionListener(listener);
+     panel.add(text);
+
+     panel.add(new JLabel("필요한 수면시간 : "));
+     result = new JTextField(15);
+     result.setEditable(false);
+     panel.add(result);
+
+     button = new JButton("확인");
+     button.addActionListener(listener);
+     panel.add(button);
+     add(panel);
+     JLabel label1 = new JLabel();
+     label1.setText("기준 수면시간은 8H입니다");
+     panel.add(label1);
+     setVisible(true);
+}
+  
+private class ButtonListener implements ActionListener {
+      public void actionPerformed(ActionEvent e) { 
+      if (e.getSource() == button || e.getSource() == text) {
+         String name = text.getText();
+         Double value = Double.parseDouble(name);
+         int sleepTime = 0;
+         final int standardTime = 8;
+         if(value >= 8) {
+        	 result.setText("수면시간 충분합니다!");
+         }
+         else if(value < 0) {
+        	 result.setText("올바른 값을 입력하세요");
+         }
+         else {
+         result.setText(" " + (standardTime - value)+"시간 수면이 더 필요합니다.");}
+         text.requestFocus();
+     }
+  }
+}
+
+}
+
+//class water
+
+import javax.swing.*; 
+import java.awt.*;
+import java.awt.event.*;
+
+class Water extends JFrame {
+     private JButton button;
+     private JLabel label1, label2, label3, label4;
+     int counter=0;
+     double a,b;
+
+     public Water()  {
+          setSize(400, 200);
+          setTitle("마신 물의 양은?");
+          setLayout(new FlowLayout());
+          label1 = new JLabel("몇 잔을 마셨습니까?");
+          label2 = new JLabel("->");
+          label3 = new JLabel("");
+          label4 = new JLabel("");
+          JTextField field1 = new JTextField(4);
+          button = new JButton("변환");
+
+        
+          add(label1, "Center");
+          add(field1);
+          add(label2);
+          add(label4);
+          add(label3);
+          add(button, "Center");
+          setVisible(true);
+
+          button.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                     a = Double.parseDouble(field1.getText());
+                     b=a*250;
+                     label4.setText(b +"ml입니다");
+              }
+         });
+     }
+}
+
+//class workout
+import javax.swing.*; 
+import java.awt.*;
+import java.awt.event.*;
+
+class WorkOut extends JFrame {
+     private JButton button;
+     private JLabel label1, label2, label3;
+     int counter=0;
+     double a,km, kcal;
+
+     public WorkOut()  {
+          setSize(400, 200);
+          setTitle("만보기");
+          setLayout(new FlowLayout());
+          label1 = new JLabel("걸음수를 입력하세요");
+          label2 = new JLabel("");
+          label3 = new JLabel("");
+          JTextField field1 = new JTextField(4);
+          button = new JButton("확인");
+
+        
+          add(label1, "Center");
+          add(field1);
+          add(label3);
+          add(label2);
+          add(button, "Center");
+          setVisible(true);
+
+          button.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                     a = Double.parseDouble(field1.getText());
+                     km=a*0.0008;       
+                     kcal=a*0.0414;
+                     label3.setText("거리 : "+Math.round(km*100)/100.0+"km"+"\n"+"칼로리 소모량 : "+Math.round(kcal*100)/100.0+"Kcal");
+              }
+         });
+     }
+}
+
+//we have to add age.txt, coffee.png, health.png
